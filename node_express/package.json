@@ -1,0 +1,20 @@
+{
+  "name": "jsf_irc_2019",
+  "version": "0.1.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@git.epitech.eu:/gregory.koenig@epitech.eu/JSF_irc_2019"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ent": "^2.2.0",
+    "express": "^4.17.1",
+    "socket.io": "^2.3.0"
+  }
+}

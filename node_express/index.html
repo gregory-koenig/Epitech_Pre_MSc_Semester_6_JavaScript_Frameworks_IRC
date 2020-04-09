@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>IRC JS</title>
+    <style>
+        #zone_chat strong {
+            color: white;
+            background-color: black;
+            padding: 2px;
+        }
+    </style>
+</head>
+<body>
+<h1>IRC JS</h1>
+
+<form action="/" method="post" id="form_chat">
+    <input type="text" name="message" id="message" placeholder="Votre message..." size="50" autofocus />
+    <input type="submit" id="send_message" value="Envoyer" />
+</form>
+
+<section id="zone_chat">
+
+</section>
+
+
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+        crossorigin="anonymous"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    let socket = io.connect('http://localhost:8080');
+
+    let pseudo = prompt('Quel est votre pseudo ?');
+    socket.emit('new_client', pseudo);
+    document.title = pseudo + ' - ' + document.title;
+
+    socket.on('message', function(data) {
+        insertMessage(data.pseudo, data.message)
+    });
+
+    socket.on('new_client', function(pseudo) {
+        $('#zone_chat').prepend('<p><em>' + pseudo + ' a rejoint le Chat !</em></p>');
+    });
+
+    $('#form_chat').submit(function () {
+        let message = $('#message').val();
+        socket.emit('message', message);
+        insertMessage(pseudo, message);
+        $('#message').val('').focus();
+        return false;
+    });
+
+    function insertMessage(pseudo, message) {
+        $('#zone_chat').prepend('<p><strong>' + pseudo + '</strong> ' + message + '</p>');
+    }
+</script>
+</body>
+</html>
